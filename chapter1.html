@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: The Boy Who Lived - Quiz</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 沿用主页的羊皮纸背景和基础样式 */
+        body {
+            background-image: url('https://user-images.githubusercontent.com/101886738/265882672-880c5c64-469b-449e-b9b0-9f5b66d48c08.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #3e3e3e;
+            font-family: 'Merriweather', 'Times New Roman', serif;
+            line-height: 1.8;
+            /* 文本更宽松，易读 */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            /* 更白净的前景，像一本打开的书 */
+            border: 5px solid #4f0303;
+            /* 格兰芬多主题色边框 */
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #740001;
+            /* 深红色主题 */
+            font-size: 2.5em;
+            text-align: center;
+            border-bottom: 2px solid #740001;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* 章节文本样式 */
+        .chapter-text h2 {
+            font-family: 'Cinzel Decorative', serif;
+            color: #740001;
+            font-size: 1.5em;
+            margin-top: 30px;
+        }
+
+        .chapter-text p {
+            margin-bottom: 1.5em;
+            text-indent: 2em;
+            /* 段首缩进 */
+        }
+
+        /* 测验区样式 */
+        #quiz-section {
+            margin-top: 50px;
+            padding: 30px;
+            border: 3px double #a87e00;
+            /* 金色双线边框 */
+            background-color: rgba(255, 255, 240, 0.9);
+            /* 浅黄底色 */
+            border-radius: 8px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-bottom: 1px dashed #a87e00;
+        }
+
+        .question p {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #4f0303;
+            text-indent: 0;
+        }
+
+        .options label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 5px 0;
+            transition: background-color 0.2s;
+        }
+
+        .options label:hover {
+            background-color: rgba(168, 126, 0, 0.1);
+        }
+
+        #submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #740001;
+            /* 提交按钮用格兰芬多红 */
+            color: white;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #a00002;
+        }
+
+        /* 结果显示 */
+        #quiz-result {
+            text-align: center;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #a87e00;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Chapter 1: The Boy Who Lived - Trial</h1>
+
+        <div class="chapter-text">
+            <h2>English (Original Text)</h2>
+
+            <p>**Chapter 1. The boy who lived.** Mr. and Mrs. Dersley of number four Private Drive were proud to say
+                that they were perfectly normal. Thank you very much. They were the last people you'd expect to be
+                involved in anything strange or mysterious because they just didn't hold with such nonsense. Mr. Dersley
+                was the director of a firm called Grunnings which made drills. He was a big beefy man with hardly any
+                neck, although he did have a very large mustache. Mrs. Dersley was thin and blonde and had nearly twice
+                the usual amount of neck which came in very useful as she spent so much of her time craning over garden
+                fences spying on the neighbors. The Derslley's had a small son called Dudley. [cite_start]And in their
+                opinion, there was no finer boy anywhere. [cite: 219, 220, 221, 222, 223, 224] </p>
+
+            <p>The Derslley's had everything they wanted. But they also had a secret, and their greatest fear was that
+                somebody would discover it. They didn't think they could bear it if anyone found out about the Potters.
+                Mrs. Potter was Mrs. Dersley's sister, but they hadn't met for several years. In fact, Mrs. Dersley
+                pretended she didn't have have a sister because her sister and her goodfor-no husband were as
+                undersley-ish as it was possible to be. The Derslley's shuddered to think what the neighbors would say
+                if the potters arrived in the street. The Derslley's knew that the potters had a small son, too, but
+                they had never even seen him. This boy was another good reason for keeping the potters away.
+                [cite_start]They didn't want Dudley mixing with a child like that. [cite: 225, 226, 227, 228, 229, 230,
+                231, 232] </p>
+
+            <p>When Mr. and Mrs. Dersley woke up on the dull gray Tuesday our story starts, there was nothing about the
+                cloudy sky outside to suggest that strange and mysterious things would soon be happening all over the
+                country. Mr. Dersley hummed as he picked out his most boring tie for work, and Mrs. Dersley gossiped
+                away happily as she wrestled a screaming Dudley into his high chair. None of them noticed a large toy
+                owl flutter past the window. At 8, Mr. Dersley picked up his briefcase, pecked Mrs. Dersley on the
+                cheek, and tried to kiss Dudley goodbye, but missed because Dudley was now having a tantrum and throwing
+                his cereal at the walls. [cite_start]"Little Tikeke, chled Mr. Dersley as he left the house. He got into
+                his car and backed out of number four's drive. [cite: 233, 234, 235, 236, 237, 238] </p>
+
+            <p>It was on the corner of the street that he noticed the first sign of something peculiar. A cat reading a
+                map. For a second, Mr. Dersley didn't realize what he had seen. Then he jerked his head around to look
+                again. There was a tabbyat standing on the corner of Private Drive, but there wasn't a map in sight.
+                What could he have been thinking of? It must have been a trick of the light. Mr. Dersley blinked and
+                stared at the cat. It stared back. As Mr. Dersley drove around the corner and up the road, he watched
+                the cat in his mirror. It was now reading the sign that said Private Drive. No, looking at the sign.
+                [cite_start]Cats couldn't read maps or signs. [cite: 238, 239, 240, 241, 242, 243, 244, 245, 246] </p>
+
+            <p>**(因篇幅限制，此处省略大部分后续英文文本，以便于突出测验功能)**</p>
+
+            <p>Dumbledore took Harry in his arms and turned towards the Derslley's house. "Could I could I say goodbye
+                to him, sir?" He bent his great shaggy head over Harry. and gave him what must have been a very scratchy
+                whiskery kiss. Then suddenly Hagrid let out a howl like a wounded dog. "You wait then. Sorry," sobbed
+                Hagrit, taking out a large spotted handkerchief and burying his face in it. [cite_start]"But I I can't
+                stand it. Lily and James dead and poor little Harry off to live with muggles." [cite: 409, 410, 411,
+                412, 413, 414, 415] </p>
+
+            <h2>中文译文 (Chinese Translation)</h2>
+
+            [cite_start]<p>第 1 章。大难不死的男孩。住在水蜡树街 4
+                号的德思礼夫妇总是得意地说，他们是彻头彻尾的正常人，谢谢。他们是那种人们最不希望与任何奇怪或神秘事物有牵连的人，因为他们根本不相信那些胡言乱语。德思礼先生是一家名为“古农”的公司的董事，该公司生产钻机。他是一个体型魁梧的壮汉，脖子短得几乎没有，但他留着很大的小胡子。德思礼太太身材瘦削，一头金发，脖子的长度几乎是常人的两倍，这在她探头越过花园栅栏，监视邻居时非常有用。德思礼夫妇有个小儿子叫达力。在他们看来，没有哪个孩子比达力更优秀了。
+                [cite: 237, 219, 220, 221, 222, 223, 224] </p>
+
+            [cite_start]<p>
+                德思礼夫妇拥有一切他们想要的东西。但他们也有一个秘密，他们最害怕的就是有人会发现它。他们认为，如果有人发现了波特一家的事情，他们将无法忍受。波特太太是德思礼太太的姐姐，但他们已经多年没有见面了。事实上，德思礼太太假装自己没有这个姐姐，因为她的姐姐和她那个不成器的丈夫是和德思礼夫妇完全不搭调的人。德思礼夫妇一想到波特一家出现在这条街上，邻居们会说什么，就不寒而栗。德思礼夫妇知道波特一家也有个小儿子，但他们从未见过他。这个男孩是让他们避开波特一家的另一个好理由。他们不想让达力跟那样的孩子混在一起。
+                [cite: 225, 226, 227, 228, 229, 230, 231, 232] </p>
+
+            [cite_start]<p>
+                当德思礼夫妇在这故事开始的那个阴沉灰暗的星期二醒来时，外面多云的天空没有任何迹象表明，奇怪而神秘的事情很快就会在全国各地发生。德思礼先生哼着歌，挑选着他最无聊的一条领带去上班，德思礼太太则开心地聊着天，同时费力地把尖叫着的达力塞进他的高脚椅里。他们谁也没注意到一只大个的玩具猫头鹰从窗户旁飞过。八点钟，德思礼先生拿起公文包，亲了亲德思礼太太的脸颊，并试图亲吻达力说再见，但没有成功，因为达力正在发脾气，把他的麦片扔向墙壁。“小坏蛋，”德思礼先生离开家时喊道。他上了车，倒出了四号的私家车道。
+                [cite: 233, 234, 235, 236, 237, 238] </p>
+
+            [cite_start]<p>
+                就在街角，他注意到了第一件奇怪的迹象。一只猫在看地图。有一秒钟，德思礼先生没有意识到自己看到了什么。然后他猛地把头转过去再看一眼。水蜡树街的角落里站着一只虎斑猫，但根本没有地图。他刚才在想什么呢？那一定是光线造成的错觉。德思礼先生眨了眨眼，盯着那只猫。那只猫也盯着他。当德思礼先生开车绕过街角上路时，他从后视镜里看着那只猫。它现在正“阅读”那个写着“水蜡树街”的路牌。不，是看着路牌。猫是不会读地图或路牌的。
+                [cite: 238, 239, 240, 241, 242, 243, 244, 245, 246] </p>
+
+            <p>**(因篇幅限制，此处省略大部分后续中文文本，请根据您的原始文件补全)**</p>
+
+            [cite_start]<p>
+                邓布利多把哈利抱在怀里，转向德思礼的房子。“我，我能和他说声再见吗，先生？”他把他那巨大的、毛茸茸的头俯向哈利，给了他一个想必是扎人的胡须吻。然后海格突然发出了像受伤的狗一样的嚎叫。“你等着。对不起，”海格抽泣着，掏出一条大号的带斑点的手帕，把脸埋在里面。“但我……我受不了了。莉莉和詹姆死了，可怜的小哈利还要去和麻瓜一起生活。”
+                [cite: 409, 410, 411, 412, 413, 414, 415] </p>
+        </div>
+
+        <hr style="margin-top: 50px; border-color: #a87e00;">
+
+        <div id="quiz-section">
+            <h2 style="text-align: center; color: #740001;">魔药配置： Chapter 1 试炼</h2>
+            <div id="quiz-form">
+                <div class="question">
+                    <p>1. [cite_start]What company was Mr. Dursley the director of? [cite: 221]</p>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="A"> A) Grunnings</label>
+                        <label><input type="radio" name="q1" value="B"> B) Ollivanders</label>
+                        <label><input type="radio" name="q1" value="C"> C) Weasleys' Wizard Wheezes</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>2. [cite_start]What was the first peculiar thing Mr. Dursley noticed on his way to work? [cite:
+                        239]</p>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="A"> A) A flock of eagles</label>
+                        <label><input type="radio" name="q2" value="B"> B) A cat reading a map</label>
+                        <label><input type="radio" name="q2" value="C"> C) A purple bicycle</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>3. [cite_start]What strange word did the old man in the violet cloak call Mr. Dursley? [cite:
+                        283]</p>
+                    <div class="options">
+                        <label><input type="radio" name="q3" value="A"> A) Wizard</label>
+                        <label><input type="radio" name="q3" value="B"> B) Squib</label>
+                        <label><input type="radio" name="q3" value="C"> C) Muggle</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>4. [cite_start]Who was the man who appeared on Private Drive to meet Professor McGonagal? [cite:
+                        329]</p>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="A"> A) Albus Dumbledore</label>
+                        <label><input type="radio" name="q4" value="B"> B) Sirius Black</label>
+                        <label><input type="radio" name="q4" value="C"> C) Rubeus Hagrid</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>5. [cite_start]What shape was the curiously shaped cut on baby Harry's forehead? [cite: 406]</p>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="A"> A) A bolt of lightning</label>
+                        <label><input type="radio" name="q5" value="B"> B) A crescent moon</label>
+                        <label><input type="radio" name="q5" value="C"> C) A star</label>
+                    </div>
+                </div>
+            </div>
+
+            <button id="submit-btn">Submit Answer and Pass Trial (提交答案，通过试炼)</button>
+            <div id="quiz-result"></div>
+        </div>
+    </div>
+
+    <script>
+        // 测验数据和答案
+        const quizData = [
+            { id: 'q1', answer: 'A' },
+            { id: 'q2', answer: 'B' },
+            { id: 'q3', answer: 'C' },
+            { id: 'q4', answer: 'A' },
+            { id: 'q5', answer: 'A' }
+        ];
+
+        const submitButton = document.getElementById('submit-btn');
+        const resultDiv = document.getElementById('quiz-result');
+
+        // 绑定提交按钮事件
+        submitButton.addEventListener('click', function () {
+            let score = 0;
+            let total = quizData.length;
+
+            quizData.forEach(question => {
+                // 获取用户选择的答案
+                const selected = document.querySelector(`input[name="${question.id}"]:checked`);
+                if (selected && selected.value === question.answer) {
+                    score++;
+                }
+            });
+
+            // 计算通过率。设置通过标准：需要答对 4 题 (80%) 或以上。
+            const requiredScore = 4;
+            const pass = score >= requiredScore;
+
+            if (pass) {
+                resultDiv.className = 'pass';
+                resultDiv.innerHTML = `
+                    恭喜！你成功配置了魔药！<br>
+                    正确答案数: ${score} / ${total} (通过率: ${((score / total) * 100).toFixed(0)}%)<br>
+                    <span style="color: #740001; font-size: 1.5em; display: block; margin: 10px 0;">Chapter 2 现已解锁！</span>
+                    <a href="index.html" class="home-button">返回目录 (Back to Index)</a>
+                `;
+                // ** 注意：真正解锁下一关需要更复杂的服务器端或本地存储逻辑，
+                //    这里是简化处理，仅提示用户已通过。
+                //    我们将在后续步骤中实现真正的解锁逻辑。
+            } else {
+                resultDiv.className = 'fail';
+                resultDiv.innerHTML = `
+                    试炼失败！你的魔药配置有误。<br>
+                    正确答案数: ${score} / ${total} (通过率: ${((score / total) * 100).toFixed(0)}%)<br>
+                    你需要答对 ${requiredScore} 题才能通过。请重新阅读并尝试！
+                    <a href="index.html" class="home-button">返回目录 (Back to Index)</a>
+                `;
+            }
+
+            // 阻止再次提交
+            submitButton.disabled = true;
+        });
+    </script>
+
+</body>
+
+</html>

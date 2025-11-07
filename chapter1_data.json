@@ -1,0 +1,97 @@
+{
+    "id": 1,
+    "title": "The Boy Who Lived",
+    "audio_path": "chapter1.mp3",
+    "subtitles": [
+        {
+            "start": 0.0,
+            "end": 4.0,
+            "en": "Chapter 1. The boy who lived.",
+            "zh": "第一章 幸存的男孩。"
+        },
+        {
+            "start": 4.5,
+            "end": 10.5,
+            "en": "Mr. and Mrs. Dursley of number four Private Drive were proud to say that they were perfectly normal. Thank you very much.",
+            "zh": "女贞路四号的德思礼先生和太太，非常骄傲地宣称他们是百分之百的正常人，谢了您嘞。"
+        },
+        {
+            "start": 10.5,
+            "end": 18.0,
+            "en": "They were the last people you'd expect to be involved in anything strange or mysterious because they just didn't hold with such nonsense.",
+            "zh": "他们是那种你最不可能想到会和任何古怪或神秘事情扯上关系的人，因为他们压根儿不相信那种胡言乱语。"
+        },
+        {
+            "start": 18.0,
+            "end": 22.0,
+            "en": "Mr. Dursley was the director of a firm called Grunnings which made drills.",
+            "zh": "德思礼先生是一家名叫“格朗宁斯”的钻机制造公司的董事。"
+        },
+        {
+            "start": 22.0,
+            "end": 27.5,
+            "en": "He was a big beefy man with hardly any neck, although he did have a very large mustache.",
+            "zh": "他是个又高又壮的男人，几乎没有脖子，但他有一撮很大很大的胡子。"
+        },
+        {
+            "start": 27.5,
+            "end": 37.0,
+            "en": "Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck which came in very useful as she spent so much of her time craning over garden fences spying on the neighbors.",
+            "zh": "德思礼太太又瘦又金发，脖子几乎是正常人的两倍长，这在她的生活中非常有用，因为她花了太多时间伸长脖子越过花园的篱笆，偷窥邻居。"
+        },
+        {
+            "start": 37.0,
+            "end": 40.5,
+            "en": "The Dursley's had a small son called Dudley.",
+            "zh": "德思礼夫妇有个小儿子叫达力。"
+        },
+        {
+            "start": 40.5,
+            "end": 43.5,
+            "en": "And in their opinion, there was no finer boy anywhere.",
+            "zh": "在他们看来，世上再没有比他更好的男孩了。"
+        }
+    ],
+    "quiz": [
+        {
+            "q": "What was the name of the firm Mr. Dursley worked for?",
+            "options": [
+                "Potter Corp",
+                "Grunnings",
+                "Magic Drills",
+                "Private Drive Co."
+            ],
+            "answer": "Grunnings"
+        },
+        {
+            "q": "Mrs. Dursley had a long neck because she spent time doing what?",
+            "options": [
+                "Knitting",
+                "Craning over garden fences",
+                "Cooking",
+                "Reading books"
+            ],
+            "answer": "Craning over garden fences"
+        },
+        {
+            "q": "What animal was Dumbledore seen with?",
+            "options": [
+                "An owl",
+                "A tabby cat",
+                "A dog",
+                "A squirrel"
+            ],
+            "answer": "A tabby cat"
+        },
+        {
+            "q": "The Dursleys' greatest fear was that someone would discover what?",
+            "options": [
+                "Their wealth",
+                "The Potters",
+                "Their dog",
+                "Mr. Dursley’s drills"
+            ],
+            "answer": "The Potters"
+        }
+    ]
+}

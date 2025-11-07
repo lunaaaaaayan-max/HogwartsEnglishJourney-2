@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 Hogwarts English Journey 🗝️</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Merriweather:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ======================== CSS 样式 (最终稳定版) ======================== */
+        body {
+            background-image: url('https://user-images.githubusercontent.com/101886738/265882672-880c5c64-469b-449e-b9b0-9f5b66d48c08.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #3e3e3e;
+            font-family: 'Merriweather', '华文楷体', 'Times New Roman', serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 5px solid #a87e00;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #4f0303;
+            font-size: 2.8em;
+            text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.8);
+            border-bottom: 3px double #a87e00;
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        .intro-text {
+            font-size: 1em;
+            margin-bottom: 30px;
+        }
+
+        .quest-chapter {
+            border: 2px dashed #a87e00;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .main-quest-title {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #2a2a2a;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .main-quest-title::before {
+            content: "BOOK 1 | ";
+            font-size: 0.7em;
+            color: #a87e00;
+            opacity: 0.8;
+            margin-right: 5px;
+        }
+
+        .quest-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px 3%;
+            justify-content: center;
+        }
+
+        .quest-card {
+            width: 30%;
+            min-width: 250px;
+            padding: 25px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #a87e00;
+        }
+
+        .quest-card:hover:not(.locked) {
+            transform: scale(1.03) rotate(1deg);
+            box-shadow: 0 8px 20px rgba(168, 126, 0, 0.7);
+            cursor: pointer;
+        }
+
+        .card-title {
+            font-size: 1.4em;
+            color: #4f0303;
+            margin: 15px 0 0 0;
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        .unlocked {
+            background-color: #4CAF50;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .start-button {
+            display: block;
+            background-color: #a87e00;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .gryffindor {
+            border-color: #740001;
+            background-color: rgba(255, 230, 230, 0.9);
+        }
+
+        .slytherin {
+            border-color: #1a472a;
+            background-color: rgba(220, 255, 220, 0.9);
+        }
+
+        .ravenclaw {
+            border-color: #0e1a40;
+            background-color: rgba(230, 230, 255, 0.9);
+        }
+
+        .hufflepuff {
+            border-color: #ffdb00;
+            background-color: rgba(255, 255, 220, 0.9);
+        }
+
+        /* ======================== 章节学习页面样式 ======================== */
+        #chapter-view {
+            padding: 20px 0;
+            text-align: left;
+        }
+
+        #player-controls {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px;
+            border-bottom: 2px solid #a87e00;
+        }
+
+        .subtitle-button {
+            background-color: #0e1a40;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+
+        .subtitle-button:hover,
+        .subtitle-button.active {
+            background-color: #c99e1a;
+        }
+
+        #subtitle-display {
+            padding: 20px 30px;
+            border: 1px solid #ddd;
+            background-color: rgba(255, 255, 255, 0.9);
+            min-height: 200px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            line-height: 2.2em;
+        }
+
+        #subtitle-display span {
+            cursor: pointer;
+            padding: 0 2px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+            white-space: pre-wrap;
+        }
+
+        .subtitle-highlight {
+            background-color: rgba(255, 255, 0, 0.4) !important;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .sentence-zh {
+            color: #740001;
+            display: block;
+        }
+
+        .sentence-en {
+            display: block;
+        }
+
+        /* 测验区 */
+        #quiz-section {
+            padding: 30px;
+            border: 3px double #a87e00;
+            background-color: rgba(255, 255, 240, 0.9);
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .question p {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #4f0303;
+        }
+
+        /* AI 魔法词典模态框 - 终极修复 CSS 规则 */
+        .ai-modal {
+            display: none;
+            position: fixed;
+            z-index: 999999 !important;
+            /* 最高层级 */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            /* 强制高度 */
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .ai-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border: 5px solid #0e1a40;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+            min-height: 200px;
+            /* 最小高度修复 */
+            position: relative;
+            /* 强制可见性 */
+            opacity: 1 !important;
+            visibility: visible !important;
+            overflow: visible !important;
+            /* 确保内容不被裁剪 */
+        }
+
+        .ai-modal-content h3 {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #0e1a40;
+            text-align: center;
+            border-bottom: 2px solid #a87e00;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        /* 终极文本修复：确保内容是独立可见的块 */
+        .ai-word-query,
+        .ai-response-text {
+            color: #3e3e3e !important;
+            position: relative !important;
+            z-index: 999999 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+            /* 保持样式不变 */
+            padding-top: 5px;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .ai-word-query {
+            font-style: italic;
+            font-weight: bold;
+            color: #740001 !important;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .ai-response-text {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            font-size: 1.1em;
+        }
+
+        /* 兼容如果内容是 p 标签的情况 */
+        .ai-modal-content p {
+            opacity: 1 !important;
+            visibility: visible !important;
+            color: #3e3e3e !important;
+            z-index: 999999 !important;
+        }
+
+        .ai-close {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .ai-close:hover,
+        .ai-close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📜 Hogwarts English Journey 🗝️</h1>
+        <div id="index-view">
+            <div class="intro-text">
+                <p>Welcome, aspiring wizard! You must complete 17 "Potion Configuration" and "Prophecy Arrangement"
+                    mini-quests to pass your first year's trial.</p>
+                <p><strong>🚨 Caution:</strong> Please complete the quests in sequential order. Subsequent quests will
+                    remain locked until the previous one is successfully passed!</p>
+            </div>
+
+            <div class="quest-chapter">
+                <div class="main-quest-title">Harry Potter and the Philosopher's Stone</div>
+                <div class="quest-cards">
+                    <div class="quest-card gryffindor">
+                        <h3 class="card-title">Chapter 1: The Boy Who Lived</h3>
+                        <div class="status-badge unlocked">Unlocked</div>
+                        <button class="start-button chapter-start-btn" data-chapter-id="1">Cast Spell</button>
+                    </div>
+                    <div class="quest-card locked slytherin">
+                        <h3 class="card-title">Chapter 2: The Vanishing Glass</h3>
+                        <div class="status-badge locked-badge">Locked 🔒</div>
+                        <button class="start-button locked-btn chapter-start-btn" data-chapter-id="2" disabled>Complete
+                            Previous Chapter First</button>
+                    </div>
+                    <div class="quest-card locked ravenclaw">
+                        <h3 class="card-title">Chapter 3: The Letters from No One</h3>
+                        <div class="status-badge locked-badge">Locked 🔒</div>
+                        <button class="start-button locked-btn chapter-start-btn" data-chapter-id="3" disabled>Complete
+                            Previous Chapter First</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chapter-view" style="display:none;">
+            <h2
+                style="font-family: 'Cinzel Decorative', cursive; color: #740001; font-size: 2.5em; text-align: center;">
+                Chapter Title Placeholder</h2>
+
+            <button onclick="hideChapter()" class="back-button" style="margin-bottom: 20px;">← Back to Index</button>
+
+            <div id="player-controls">
+                <audio id="audio-player" controls>
+                    <source id="audio-source" src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <button class="subtitle-button active" id="btn-bilingual">Bilingual Subtitles</button>
+                <button class="subtitle-button" id="btn-english">English Only</button>
+                <button class="subtitle-button" id="btn-chinese">Chinese Only</button>
+            </div>
+
+            <div id="subtitle-display">
+                <p>Loading magical texts...</p>
+            </div>
+
+            <div id="quiz-section" style="display:none;">
+                <h3 style="text-align: center; color: #740001;">Potion Configuration: Trial Assessment</h3>
+                <div id="quiz-form">
+                </div>
+                <button id="submit-btn" disabled>Submit Answer</button>
+                <div id="quiz-result" class="result-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ai-modal" class="ai-modal">
+        <div class="ai-modal-content">
+            <span class="ai-close">&times;</span>
+            <h3>Professor Dumbledore's Guidance</h3>
+            <div id="ai-word" class="ai-word-query"></div>
+            <div id="ai-response" class="ai-response-text"></div>
+        </div>
+    </div>
+
+
+    <script>
+        // ----------------- 1. 全局 DOM 元素和状态 -----------------
+        const indexView = document.getElementById('index-view');
+        const chapterView = document.getElementById('chapter-view');
+        const subtitleDisplay = document.getElementById('subtitle-display');
+        const quizSection = document.getElementById('quiz-section');
+        const quizForm = document.getElementById('quiz-form');
+        const submitButton = document.getElementById('submit-btn');
+        const audioPlayer = document.getElementById('audio-player');
+        const audioSource = document.getElementById('audio-source');
+
+        // 确保模态框元素被正确引用
+        const aiModal = document.getElementById('ai-modal');
+        const aiClose = document.querySelector('.ai-close');
+        // 修复点：ai-word 和 ai-response 现在是 div
+        const wordElement = document.getElementById('ai-word');
+        const responseElement = document.getElementById('ai-response');
+
+        let currentSubtitleMode = 'bilingual';
+        let currentSentenceIndex = 0;
+        let currentChapterData = null;
+
+        // 词典数据 (保持不变)
+        const MAGIC_DICTIONARY = {
+            "dursley": { type: "Proper Noun (Muggle)", def: "A family name belonging to the most utterly normal Muggles imaginable. Known for their extreme aversion to anything mysterious or magical.", usage: "Use with caution. Speaking this name too loudly might attract attention from the Ministry." },
+            "grunnings": { type: "Proper Noun (Muggle Corporation)", def: "The Muggle firm where Mr. Dursley serves as a director. They specialize in the creation of drills, a profoundly unmagical pursuit.", usage: "Often cited in texts describing the mundane and predictable lives of Muggles." },
+            "shuddered": { type: "Verb (Past Tense)", def: "To tremble or shake convulsively, typically as a result of fear or revulsion. In the Dursley's case, usually brought on by thinking about the Potters.", usage: "Example: 'Professor Snape <span style='font-style:italic;'>shuddered</span> at the thought of teaching Neville Longbottom how to brew a simple Calming Draught.'" },
+            "craning": { type: "Verb (Present Participle)", def: "The act of stretching one's neck, especially to see over or around something. A useful Muggle technique, particularly for the nosy Mrs. Dursley due to her unusually long neck.", usage: "Commonly done by students trying to <span style='font-style:italic;'>crane</span> their necks to see the Sorting Hat ceremony." },
+            "muggles": { type: "Noun (Plural)", def: "Non-magical people. Those without magical blood who are incapable of using magic. The Dursleys are prime examples of this classification.", usage: "Warning: Never use this word in front of a Muggle. It is best kept within the magical community." },
+            "pecked": { type: "Verb (Past Tense)", def: "To kiss lightly and quickly, often a hurried gesture of affection, typically on the cheek. Also, the action of an owl with its beak.", usage: "Mr. Dursley hastily <span style='font-style:italic;'>pecked</span> his wife before rushing off to his drill-making duties." },
+            "tawny": { type: "Adjective", def: "A light brown to brownish-orange colour. Often used to describe the coloration of certain nocturnal birds, especially the common European owl.", usage: "The <span style='font-style:italic;'>tawny</span> owl is a frequent messenger in the Ministry's internal communications." },
+            "nonsense": { type: "Noun", def: "Ideas, statements, or beliefs that are absurd or have no sense. Often used by Muggles (like the Dursleys) to describe things they don't understand, such as magic.", usage: "Professor McGonagall often muttered that the students' excuses were utter <span style='font-style:italic;'>nonsense</span>." }
+        };
+
+        // ----------------- 2. 数据加载逻辑 -----------------
+        async function fetchChapterData(chapterId) {
+            const filename = `chapter${chapterId}_data.json`;
+            try {
+                const response = await fetch(filename);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                data.id = chapterId;
+                return data;
+            } catch (error) {
+                console.error("Error loading chapter data:", error);
+                return null;
+            }
+        }
+
+        // ----------------- 3. 页面切换和渲染逻辑 -----------------
+        async function loadChapter(chapterId) {
+            indexView.style.display = 'none';
+            chapterView.style.display = 'block';
+            document.querySelector('#chapter-view h2').textContent = `Loading Chapter ${chapterId}...`;
+            subtitleDisplay.innerHTML = '<p style="text-align:center;">Reading ancient scrolls... (Loading data and audio)</p>';
+
+            const data = await fetchChapterData(chapterId);
+
+            if (!data) {
+                subtitleDisplay.innerHTML = `<p style="color:red; text-align:center;"><strong>魔法卷轴加载失败:</strong> 无法找到或读取文件 <code>chapter${chapterId}_data.json</code> 或文件格式错误。请检查您的控制台（Console）查看具体错误。</p>`;
+                return;
+            }
+
+            currentChapterData = data;
+            document.querySelector('#chapter-view h2').textContent = `Chapter ${data.id}: ${data.title}`;
+
+            if (audioSource) {
+                audioSource.src = `chapter${chapterId}.mp3`;
+            }
+            if (audioPlayer) {
+                audioPlayer.load();
+                audioPlayer.currentTime = 0;
+            }
+
+            currentSentenceIndex = 0;
+
+            renderSubtitles();
+            renderQuiz();
+
+            quizSection.style.display = 'none';
+            submitButton.disabled = true;
+            document.getElementById('quiz-result').innerHTML = '';
+
+            document.querySelectorAll('.subtitle-highlight').forEach(el => el.classList.remove('subtitle-highlight'));
+        }
+
+        function hideChapter() {
+            if (audioPlayer) {
+                audioPlayer.pause();
+            }
+            indexView.style.display = 'block';
+            chapterView.style.display = 'none';
+            aiModal.style.display = 'none';
+        }
+
+        function renderSubtitles() {
+            const data = currentChapterData;
+            if (!data) return;
+
+            subtitleDisplay.innerHTML = '';
+            data.subtitles.forEach((pair, index) => {
+                const p = document.createElement('p');
+                p.id = `sentence-${index}`;
+                p.setAttribute('data-index', index);
+
+                if (currentSubtitleMode === 'english' || currentSubtitleMode === 'bilingual') {
+                    const enSpan = document.createElement('span');
+                    enSpan.className = 'sentence-en';
+                    enSpan.innerHTML = pair.en.split(/\s+/).map(word => {
+                        const cleanWord = word.replace(/[.,!?;:()"]+/g, '').toLowerCase().trim();
+                        return `<span onclick="showMagicDictionary('${cleanWord}')">${word}</span>`;
+                    }).join(' ');
+                    p.appendChild(enSpan);
+                }
+
+                if (currentSubtitleMode === 'chinese' || currentSubtitleMode === 'bilingual') {
+                    const zhSpan = document.createElement('span');
+                    zhSpan.className = 'sentence-zh';
+                    zhSpan.innerHTML = `(${pair.zh})`;
+                    p.appendChild(zhSpan);
+                }
+
+                subtitleDisplay.appendChild(p);
+            });
+
+            document.querySelectorAll('.subtitle-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${currentSubtitleMode}`).classList.add('active');
+        }
+
+        document.getElementById('btn-bilingual').onclick = () => { currentSubtitleMode = 'bilingual'; renderSubtitles(); };
+        document.getElementById('btn-english').onclick = () => { currentSubtitleMode = 'english'; renderSubtitles(); };
+        document.getElementById('btn-chinese').onclick = () => { currentSubtitleMode = 'chinese'; renderSubtitles(); };
+
+        // ----------------- 4. 实时高亮和音频逻辑 -----------------
+        if (audioPlayer) {
+            audioPlayer.addEventListener('timeupdate', () => {
+                if (!currentChapterData || !currentChapterData.subtitles.length) return;
+
+                const currentTime = audioPlayer.currentTime;
+                let newIndex = -1;
+
+                for (let i = 0; i < currentChapterData.subtitles.length; i++) {
+                    const sentence = currentChapterData.subtitles[i];
+
+                    if (sentence.start === undefined || sentence.end === undefined) continue;
+
+                    if (currentTime >= sentence.start && currentTime < sentence.end) {
+                        newIndex = i;
+                        break;
+                    }
+                }
+
+                if (newIndex >= 0 && newIndex < currentChapterData.subtitles.length) {
+                    if (newIndex !== currentSentenceIndex) {
+                        const oldElement = document.getElementById(`sentence-${currentSentenceIndex}`);
+                        if (oldElement) {
+                            oldElement.classList.remove('subtitle-highlight');
+                        }
+
+                        const newElement = document.getElementById(`sentence-${newIndex}`);
+                        if (newElement) {
+                            newElement.classList.add('subtitle-highlight');
+                            newElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        currentSentenceIndex = newIndex;
+                    }
+                }
+            });
+        }
+
+
+        // ----------------- 5. AI 魔法词典逻辑 (最终稳定修复) -----------------
+        function showMagicDictionary(word) {
+            if (!word || word.trim() === '') return;
+
+            if (!aiModal || !wordElement || !responseElement) {
+                console.error("Error: Modal elements (ai-modal, ai-word, or ai-response) not found.");
+                return;
+            }
+
+            const lowerCaseWord = word.toLowerCase();
+            const entry = MAGIC_DICTIONARY[lowerCaseWord] || {
+                type: "Unlisted Incantation",
+                def: "This word has not yet been logged in the restricted section of the Hogwarts Library. It appears to be a common, yet minor, Muggle term. Consult Professor Snape for a full—and likely painful—explanation.",
+                usage: "Try clicking a more significant term, or prepare for a detention."
+            };
+
+            // 填充内容
+            wordElement.innerHTML = `**Query:** A petition for the meaning of the word "<span style="color: #0e1a40;">${word.toUpperCase()}</span>"`;
+
+            responseElement.innerHTML = `
+                Greetings, seeker of knowledge! The <strong style="color: #0e1a40;">Library of Hogwarts</strong> has consulted its ancient scrolls.<br><br>
+                <strong>Incantation Type:</strong> ${entry.type || 'N/A'}<br>
+                <strong>Definition Potion:</strong> ${entry.def || 'N/A'}<br>
+                <strong>Spell Usage:</strong> ${entry.usage || 'N/A'}
+            `;
+
+            // 关键：显示模态框
+            aiModal.style.display = 'block';
+        }
+
+        // 绑定事件监听器
+        if (aiClose) {
+            aiClose.onclick = () => { aiModal.style.display = 'none'; };
+        }
+        window.onclick = (event) => {
+            if (event.target == aiModal) {
+                aiModal.style.display = 'none';
+            }
+        };
+
+
+        // ----------------- 6. 测验和解锁逻辑 -----------------
+        function renderQuiz() {
+            const data = currentChapterData;
+            if (!data) return;
+
+            quizForm.innerHTML = '';
+            data.quiz.forEach((qItem, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'question';
+                qDiv.innerHTML = `<p>${index + 1}. ${qItem.q}</p><div class="options"></div>`;
+
+                const optionsDiv = qDiv.querySelector('.options');
+                qItem.options.forEach(option => {
+                    optionsDiv.innerHTML += `<label><input type="radio" name="q${index}" value="${option}"> ${option}</label>`;
+                });
+                quizForm.appendChild(qDiv);
+            });
+        }
+
+        if (audioPlayer) {
+            audioPlayer.addEventListener('ended', () => {
+                quizSection.style.display = 'block';
+                submitButton.disabled = false;
+                document.getElementById('quiz-result').innerHTML = 'Trial activated! Prove your understanding.';
+            });
+        }
+
+        if (submitButton) {
+            submitButton.addEventListener('click', function () {
+                if (!currentChapterData) return;
+
+                let score = 0;
+                let total = currentChapterData.quiz.length;
+
+                currentChapterData.quiz.forEach((qItem, index) => {
+                    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                    if (selected && selected.value === qItem.answer) {
+                        score++;
+                    }
+                });
+
+                const requiredScore = 4;
+                const pass = score >= requiredScore;
+                const resultDiv = document.getElementById('quiz-result');
+
+                if (pass) {
+                    resultDiv.className = 'result-message pass';
+                    resultDiv.innerHTML = `
+                        Congratulations! The Potion Configuration is complete!<br>
+                        Score: ${score} / ${total} (Pass Rate: ${((score / total) * 100).toFixed(0)}%)<br>
+                        <span style="color: #740001; font-size: 1.5em; display: block; margin: 10px 0;">Chapter 2 is now unlocked!</span>
+                        <button onclick="hideChapter()" class="back-button">Return to Index</button>
+                    `;
+                } else {
+                    resultDiv.className = 'result-message fail';
+                    resultDiv.innerHTML = `
+                        Trial Failed! Your Potion Configuration is incorrect.<br>
+                        Score: ${score} / ${total} (Pass Rate: ${((score / total) * 100).toFixed(0)}%)<br>
+                        You must score ${requiredScore} or more. Review the chapter and try again!
+                        <button onclick="hideChapter()" class="back-button">Return to Index</button>
+                    `;
+                }
+                submitButton.disabled = true;
+            });
+        }
+
+        // ----------------- 7. 页面初始化和事件绑定 -----------------
+        function initializePage() {
+            document.querySelectorAll('.chapter-start-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const chapterId = button.getAttribute('data-chapter-id');
+                    if (chapterId && !button.disabled) {
+                        loadChapter(parseInt(chapterId));
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializePage);
+
+    </script>
+
+</body>
+
+</html>

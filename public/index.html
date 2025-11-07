@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>霍格沃茨之旅</title>
+    <style>
+        /* --- 霍格沃茨主题风格 --- */
+        :root {
+            --hogwarts-purple: #7b2cbf;
+            --hogwarts-gold: #ffc107;
+            --hogwarts-red: #c62828;
+            --background-dark: #263238;
+            --card-light: #ffffff;
+            --accent-blue: #2196F3;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--background-dark) 0%, #37474f 100%);
+            color: #ccc;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--card-light);
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            border: 3px solid var(--hogwarts-gold);
+            color: #333;
+        }
+
+        h1 {
+            color: var(--hogwarts-red);
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--hogwarts-purple);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 25px;
+        }
+
+        /* --- 菜单和按钮 --- */
+        #level-list button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 12px;
+            background-color: #eee;
+            border: none;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #level-list button:hover {
+            background-color: #e0e0e0;
+        }
+
+        #level-list button.completed {
+            background-color: #d4edda;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .level-content,
+        .ai-section {
+            padding: 20px;
+            border: 1px dashed #aaa;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* --- 朗读题样式 --- */
+        .prompt-read p {
+            line-height: 1.8;
+            font-size: 1.1em;
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .controls button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #stopButton {
+            background-color: var(--hogwarts-red);
+        }
+
+        /* --- 问答部分样式 (新的) --- */
+        #ai-output {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .check-button {
+            background-color: var(--accent-blue);
+        }
+
+        .option-button.selected {
+            border: 2px solid var(--hogwarts-purple);
+            background-color: #f3e5f5;
+        }
+
+        /* 结果消息 */
+        .result-message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .result-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result-fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .house-assignment {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 1.2em;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>霍格沃茨之旅：英语魔法挑战</h1>
+
+        <div id="main-menu">
+            <h2>🔮 魔法课程选择</h2>
+            <div id="house-display" class="house-assignment" style="display: none;"></div>
+            <div id="level-list">
+            </div>
+        </div>
+
+        <div class="ai-section">
+            <h2>📜 魔法书查询 (AI 互动替代)</h2>
+            <p>在这里你可以向“魔法书”提问任何关于哈利波特或英语学习的问题。 (纯前端模拟)</p>
+            <input type="text" id="ai-input" placeholder="输入你的问题，例如：什么是 'Muggle'？"
+                style="width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <button onclick="askMagicBook()" style="background-color: var(--accent-blue); color: white;">查询</button>
+            <div id="ai-output">答案将显示在这里。</div>
+        </div>
+
+        <div id="level-display" class="level-content" style="display: none;">
+            <h2></h2>
+            <div id="current-prompt"></div>
+        </div>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // 1. 关卡数据 (LEVELS) 和 学院数据 (HOUSES)
+        // ----------------------------------------------------
+
+        // --- 核心音频文件和名称 (Chapter 1 - 17) ---
+        const AUDIO_BASE_PATH = 'audio/Harry Potter and the Philosopher\'s Stone/';
+
+        const RAW_CHAPTERS = [
+            { id: 1, file: '0002 - Chapter 1 - The Boy Who Lived.mp3', name: '冥想室：第一章：大难不死的男孩' },
+            { id: 2, file: '0003 - Chapter 2 - The Vanishing Glass.mp3', name: '魔咒课：第二章：消失的玻璃' },
+            { id: 3, file: '0004 - Chapter 3 - The Letters from No One.mp3', name: '防御术：第三章：没人寄来的信' },
+            { id: 4, file: '0005 - Chapter 4 - The Keeper of the Keys.mp3', name: '草药学：第四章：钥匙的保管员' },
+            { id: 5, file: '0006 - Chapter 5 - Diagon Alley.mp3', name: '算术占卜：第五章：对角巷' },
+            { id: 6, file: '0007 - Chapter 6 - The Journey from Platform No.mp3', name: '天文课：第六章：从九又四分之三站台出发' },
+            { id: 7, file: '0008 - Chapter 7 - The Sorting Hat.mp3', name: '魔法史：第七章：分院帽' },
+            { id: 8, file: '0009 - Chapter 8 - The Potions Master.mp3', name: '魔药学：第八章：魔药大师' },
+            { id: 9, file: '0010 - Chapter 9 - The Midnight Duel.mp3', name: '决斗俱乐部：第九章：午夜决斗' },
+            { id: 10, file: '0011 - Chapter 10 - Hallowe\'en.mp3', name: '霍格莫德：第十章：万圣节' },
+            { id: 11, file: '0012 - Chapter 11 - Quidditch.mp3', name: '魁地奇课：第十一章：魁地奇' },
+            { id: 12, file: '0013 - Chapter 12 - The Mirror of Erised.mp3', name: '占卜课：第十二章：厄里斯魔镜' },
+            { id: 13, file: '0014 - Chapter 13 - Nicolas Flamel.mp3', name: '炼金术：第十三章：尼古拉斯·弗拉梅尔' },
+            { id: 14, file: '0015 - Chapter 14 - Norbert the Norwegian Ridgeback.mp3', name: '奇兽饲育学：第十四章：挪威脊背龙诺伯' },
+            { id: 15, file: '0016 - Chapter 15 - The Forbidden Forest.mp3', name: '禁林探险：第十五章：禁林' },
+            { id: 16, file: '0017 - Chapter 16 - Through the Trapdoor.mp3', name: '陷阱探秘：第十六章：通过活板门' },
+            { id: 17, file: '0018 - Chapter 17 - The Man with Two Faces.mp3', name: '最终试炼：第十七章：双面人' }
+        ];
+
+        // --- 核心朗读文本 (统一使用 Chapter 1 开头段落作为 Demo 文本) ---
+        const DEMO_PROMPT = "Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much. They were the last people you'd expect to be involved in anything strange or mysterious, because they just didn't hold with such nonsense.";
+        const DEMO_ANSWER = "mr. and mrs. dursley of number four privet drive were proud to say that they were perfectly normal thank you very much they were the last people you'd expect to be involved in anything strange or mysterious because they just didn't hold with such nonsense";
+
+        // 动态生成 17 个朗读关卡
+        const LEVELS = RAW_CHAPTERS.map(chapter => ({
+            id: chapter.id,
+            name: chapter.name,
+            type: "READ", // 所有关卡统一为朗读题
+            audioFile: AUDIO_BASE_PATH + chapter.file, // 引用对应的音频
+            prompt: DEMO_PROMPT, // 使用统一的演示文本
+            correct_answer: DEMO_ANSWER, // 使用统一的演示答案
+            instructions: `请听取 ${chapter.name} 的音频，并朗读下方这段话，系统将进行逐词对比。`
+        }));
+
+        // --- 学院数据 ---
+        const HOUSES = [
+            { name: "Gryffindor (格兰芬多)", color: "#9C27B0", trait: "勇敢、大胆、有骑士精神" },
+            { name: "Hufflepuff (赫奇帕奇)", color: "#FFC107", trait: "忠诚、耐心、勤劳" },
+            { name: "Ravenclaw (拉文克劳)", color: "#2196F3", trait: "智慧、学习、机智" },
+            { name: "Slytherin (斯莱特林)", color: "#4CAF50", trait: "雄心壮志、狡猾、果断" }
+        ];
+
+        // 简单的用户状态，用于学院分配
+        let userPerformance = {
+            accuracySum: 0,
+            readLevelsCompleted: 0,
+            quizScore: 0
+        };
+
+        // ----------------------------------------------------
+        // 2. DOM 元素和状态变量
+        // ----------------------------------------------------
+        const levelListDiv = document.getElementById('level-list');
+        const levelDisplayDiv = document.getElementById('level-display');
+        const currentPromptDiv = document.getElementById('current-prompt');
+        const mainMenuDiv = document.getElementById('main-menu');
+        const aiInput = document.getElementById('ai-input');
+        const aiOutput = document.getElementById('ai-output');
+        const houseDisplayDiv = document.getElementById('house-display');
+
+        let currentLevel = null;
+        let recognition = null;
+        let currentSelectedOption = null;
+
+        // ----------------------------------------------------
+        // 3. 核心功能：音频播放和朗读识别 (纯前端)
+        // ----------------------------------------------------
+
+        // --- 音频播放核心功能 ---
+        function playLevelAudio(audioPath) {
+            // 暂停可能正在播放的其他音频
+            if (window.currentAudio) {
+                window.currentAudio.pause();
+            }
+
+            const playButton = document.getElementById('playAudioButton');
+
+            // 创建新的 Audio 对象并播放
+            window.currentAudio = new Audio(audioPath);
+            window.currentAudio.play()
+                .then(() => {
+                    if (playButton) {
+                        playButton.textContent = '🔊 正在播放...';
+                        playButton.disabled = true;
+                    }
+                    window.currentAudio.onended = () => {
+                        if (playButton) {
+                            playButton.textContent = '▶️ 播放音频';
+                            playButton.disabled = false;
+                        }
+                    };
+                })
+                .catch(e => {
+                    console.error("播放音频失败:", e);
+                    alert(`音频文件 (${audioPath}) 播放失败，请检查文件路径和名称是否正确！错误: ${e.message}`);
+                    if (playButton) {
+                        playButton.textContent = '❌ 播放失败';
+                        playButton.disabled = false;
+                    }
+                });
+        }
+
+
+        function setupSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onstart = () => {
+                    document.getElementById('status').textContent = '状态: 🎙️ 正在录音... 请朗读！';
+                    document.getElementById('startButton').disabled = true;
+                    document.getElementById('stopButton').disabled = false;
+                    currentPromptDiv.querySelector('#recognisedText').textContent = '';
+                    currentPromptDiv.querySelector('#comparisonResult').innerHTML = '';
+                    currentPromptDiv.querySelector('#readResult').innerHTML = '';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('status').textContent = `状态: ✅ 识别完成。`;
+                    currentPromptDiv.querySelector('#recognisedText').textContent = '识别结果: ' + transcript;
+
+                    const originalTextCleaned = currentLevel.correct_answer;
+                    compareAndDisplay(originalTextCleaned, transcript.toLowerCase());
+                };
+
+                recognition.onerror = (event) => {
+                    document.getElementById('status').textContent = `状态: ❌ 识别错误: ${event.error}`;
+                    console.error('Recognition error: ' + event.error);
+                    document.getElementById('startButton').disabled = false;
+                    document.getElementById('stopButton').disabled = true;
+                };
+
+                recognition.onend = () => {
+                    const statusDiv = document.getElementById('status');
+                    if (statusDiv.textContent.includes('🎙️')) {
+                        statusDiv.textContent = '状态: 停止录音。';
+                    }
+                    if (document.getElementById('startButton')) {
+                        document.getElementById('startButton').disabled = false;
+                    }
+                    if (document.getElementById('stopButton')) {
+                        document.getElementById('stopButton').disabled = true;
+                    }
+                };
+
+            } else {
+                alert('您的浏览器不支持 Web Speech API。请使用 Chrome 浏览器体验朗读功能。');
+            }
+        }
+
+        // 核心对比函数：突出显示匹配/不匹配的单词
+        function compareAndDisplay(original, recognised) {
+            const originalWords = original.split(/\s+/).filter(w => w.length > 0);
+            const recognisedWords = recognised.split(/\s+/).filter(w => w.length > 0);
+
+            let htmlOutput = '';
+            let originalIndex = 0;
+            let recognisedIndex = 0;
+            let matchCount = 0;
+
+            // 逐词对比逻辑 (简化的 LCS)
+            while (originalIndex < originalWords.length) {
+                const originalWord = originalWords[originalIndex];
+
+                if (recognisedIndex < recognisedWords.length && originalWord === recognisedWords[recognisedIndex]) {
+                    htmlOutput += `<span style="color: green; font-weight: bold;">${originalWord}</span> `;
+                    originalIndex++;
+                    recognisedIndex++;
+                    matchCount++;
+                } else {
+                    htmlOutput += `<span style="color: red; text-decoration: underline;">${originalWord}</span> `;
+                    originalIndex++;
+
+                    // 尝试在识别结果中找到下一个匹配项以同步
+                    let foundNext = false;
+                    for (let i = recognisedIndex + 1; i < recognisedWords.length; i++) {
+                        if (originalIndex < originalWords.length && originalWords[originalIndex] === recognisedWords[i]) {
+                            recognisedIndex = i;
+                            foundNext = true;
+                            break;
+                        }
+                    }
+                    if (!foundNext) {
+                        recognisedIndex++;
+                    }
+                }
+            }
+
+            const totalWords = originalWords.length;
+            const accuracy = Math.round((matchCount / totalWords) * 100);
+            userPerformance.accuracySum += accuracy;
+            userPerformance.readLevelsCompleted++;
+
+            const comparisonResultDiv = currentPromptDiv.querySelector('#comparisonResult');
+
+            comparisonResultDiv.innerHTML = `
+                <h3>对比结果:</h3>
+                <p><strong>朗读匹配率: ${accuracy}%</strong></p>
+                <p>${htmlOutput}</p>
+                <p style="margin-top: 15px;">（<span style="color: green; font-weight: bold;">绿色粗体</span>: 匹配成功, <span style="color: red; text-decoration: underline;">红色下划线</span>: 未匹配或错误）</p>
+            `;
+
+            if (accuracy >= 80) {
+                displayReadResult(true, '太棒了！你的朗读非常准确，关卡通过！');
+                markLevelCompleted(currentLevel.id);
+            } else {
+                displayReadResult(false, '朗读匹配率不足 80%，请再接再厉！');
+            }
+        }
+
+        // ----------------------------------------------------
+        // 4. 界面渲染和逻辑
+        // ----------------------------------------------------
+
+        // 魔法书查询 (AI 互动替代)
+        function askMagicBook() {
+            const question = aiInput.value.trim().toLowerCase();
+            aiOutput.innerHTML = '';
+
+            if (!question) {
+                aiOutput.innerHTML = `<p style="color: var(--hogwarts-red);">请问一个问题！</p>`;
+                return;
+            }
+
+            let answer = '';
+            if (question.includes('muggle') || question.includes('麻瓜')) {
+                answer = '根据魔法书记录，"Muggle" (麻瓜) 是指不具备任何魔法能力的普通人。';
+            } else if (question.includes('dursley')) {
+                answer = 'Dursley 一家是 Harry Potter 的麻瓜亲戚，他们对魔法怀有强烈的厌恶。';
+            } else if (question.includes('leviosa') || question.includes('悬浮')) {
