@@ -1,9 +1,20 @@
 const { GoogleGenAI } = require('@google/genai');
 
-// Vercel 会自动将环境变量注入到 process.env 中
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+// 在 translate.js 文件中
+import { GoogleGenAI } from '@google/genai';
 
-const ai = GEMINI_API_KEY ? new GoogleGenAI({ apiKey: GEMINI_API_KEY }) : null;
+// 确保 API 密钥是从环境变量中读取的
+const apiKey = process.env.GEMINI_API_KEY; 
+
+if (!apiKey) {
+    // 如果没有 API Key，返回错误
+    return new Response(JSON.stringify({ error: "GEMINI_API_KEY not set" }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+    });
+}
+
+const ai = new GoogleGenAI({ apiKey });
 
 module.exports = async (req, res) => {
     // 设置 CORS 头
