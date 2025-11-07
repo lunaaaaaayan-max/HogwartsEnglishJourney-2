@@ -4,6 +4,6 @@
     "description": "Proxy for secure Gemini API calls.",
     "main": "api/translate.js",
     "dependencies": {
-        "@google/genai": "^0.1.0"
+        "@google/genai": "0.1.0"
     }
 }
